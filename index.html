@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IKI Systems</title>
+  <meta name="description" content="IKI Systems — local-first software for Mac and iOS." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://ikisystems.com/" />
+
+  <!-- Theme colour per scheme, mirroring the SpeakWith product site. -->
+  <meta name="theme-color" content="#faf7f0" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#131418" media="(prefers-color-scheme: dark)" />
+
+  <style>
+    /* Theme tokens copied verbatim from support_website/src/styles.css.
+       Pure prefers-color-scheme — no JS, no toggle. Light is the default
+       (:root); dark overrides under the media query. */
+    :root {
+      --bg: #faf7f0;
+      --surface: #fffefb;
+      --text: #2b2620;
+      --text-dim: #6b6056;
+      --accent: #9a5b34;
+      --rule: rgba(43, 38, 32, 0.12);
+      --shadow: 0 2px 20px rgba(43, 38, 32, 0.07);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #131418;
+        --surface: #1c2025;
+        --text: #f1efe9;
+        --text-dim: #a8a399;
+        --accent: #f3b54a;
+        --rule: rgba(241, 239, 233, 0.15);
+        --shadow: 0 4px 22px rgba(0, 0, 0, 0.30);
+      }
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      color: var(--text);
+      background-color: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 1.5rem;
+      width: 100%;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero__mark {
+      width: 72px;
+      height: 72px;
+      margin-bottom: 0.75rem;
+    }
+
+    .hero__wordmark {
+      font-size: clamp(2rem, 6vw, 2.6rem);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .hero__tagline {
+      color: var(--text-dim);
+      font-size: 1.1rem;
+    }
+
+    /* Product card — the whole thing is one link. */
+    .product-card {
+      display: block;
+      width: 100%;
+      margin-top: 2.75rem;
+      padding: 1.5rem 1.75rem;
+      text-align: left;
+      text-decoration: none;
+      color: inherit;
+      background-color: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .product-card:hover,
+    .product-card:focus-visible {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 6px 26px rgba(0, 0, 0, 0.18);
+    }
+
+    .product-card__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .product-card__title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .product-card__arrow {
+      color: var(--accent);
+      font-size: 1.4rem;
+      line-height: 1;
+      transition: transform 0.18s ease;
+    }
+
+    .product-card:hover .product-card__arrow,
+    .product-card:focus-visible .product-card__arrow {
+      transform: translateX(4px);
+    }
+
+    .product-card__body {
+      margin-top: 0.4rem;
+      color: var(--text-dim);
+      font-size: 1rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      color: var(--text-dim);
+      font-size: 0.875rem;
+      line-height: 1.9;
+    }
+
+    footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--accent);
+    }
+
+    .footer__sep {
+      opacity: 0.5;
+      padding: 0 0.4rem;
+    }
+
+    /* Visible focus ring for keyboard users on every interactive element. */
+    a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .product-card,
+      .product-card__arrow {
+        transition: none;
+      }
+      .product-card:hover,
+      .product-card:focus-visible {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="hero">
+      <img class="hero__mark" src="brand-icon.svg" alt="" width="72" height="72" />
+      <h1 class="hero__wordmark">IKI Systems</h1>
+      <p class="hero__tagline">Local-first software for Mac and iOS.</p>
+    </div>
+
+    <a class="product-card" href="https://speakwith.ikisystems.com">
+      <span class="product-card__head">
+        <span class="product-card__title">SpeakWith</span>
+        <span class="product-card__arrow" aria-hidden="true">&rarr;</span>
+      </span>
+      <span class="product-card__body">
+        Your spoken ideas, captured as a daily document. For Mac and iOS.
+      </span>
+    </a>
+  </main>
+
+  <footer>
+    <div>
+      <!-- Email is assembled at runtime so naive harvesters (which scrape raw
+           HTML and don't execute JS) never see a real address. The <noscript>
+           fallback shows an [at]/[dot] form for the JS-disabled minority. -->
+      <a id="contact-email" href="#" hidden></a>
+      <noscript>support [at] ikisystems [dot] com</noscript>
+      <span class="footer__sep">&middot;</span>
+      <a href="https://speakwith.ikisystems.com/privacy">Privacy</a>
+      <span class="footer__sep">&middot;</span>
+      <a href="https://speakwith.ikisystems.com/terms">Terms</a>
+    </div>
+    <div>&copy; 2026 IKI Systems. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Build the contact mailto from parts so it isn't present in the served
+    // HTML. Bots almost never run JS; a real visitor gets a working link.
+    (function () {
+      var user = "support", domain = "ikisystems.com";
+      var a = document.getElementById("contact-email");
+      if (!a) return;
+      a.href = "mailto:" + user + "@" + domain;
+      a.textContent = user + "@" + domain;
+      a.hidden = false;
+    })();
+  </script>
+</body>
+</html>
