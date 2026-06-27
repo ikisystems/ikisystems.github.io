@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://ikisystems.com/sitemap.xml
