@@ -1,0 +1,17 @@
+/* The centred 640px box the static index.html put on `main`. It lives on the
+   home page's own host element instead, because the two legal pages share that
+   `main` and are neither centred nor 640px wide. `flex: 1` fills the height
+   root.module.css hands down, which is what keeps the hero vertically centred
+   on a tall window. */
+.home {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}

@@ -1,0 +1,141 @@
+# Builds the site and publishes it to the gh-pages branch.
+#
+# Pages source in the GitHub UI stays "Deploy from a branch", with branch
+# gh-pages / (root). Deploying main / (root) publishes README.md instead.
+#
+# Slack (optional): after a successful deploy, posts to your Incoming Webhook.
+#   1. https://api.slack.com/apps → Create New App → From a manifest → enable Incoming Webhooks → add webhook → copy URL.
+#   2. Store it as a REPOSITORY secret named exactly: SLACK_WEBHOOK_URL
+#      (Settings → Secrets and variables → Actions → New repository secret)
+#   Use a repository secret, NOT an environment secret: the notify job is not pinned to an
+#   environment (the auto-created github-pages environment rejects deploys from main).
+#   Repository secrets are visible to every job, so this just works.
+#
+# ntfy (optional): store NTFY_DEPLOY_TOPIC as a repository secret too.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+env:
+  # The content root (copy.json, locales.json, public/, styles.css). It defaults
+  # to the repo root already; stating it makes the build independent of the
+  # checkout path.
+  SUPPORT_SITE_DIR: ${{ github.workspace }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Nothing in a tracked file may name a machine, a host or a port. The
+      # patterns are generic on purpose: this gate is public, so it cannot
+      # itself be a list of the things we do not want published.
+      - name: Check repo hygiene
+        run: npm run check:repo
+
+      # `vite build` strips types without checking them, so a type error in a
+      # page builds green and ships. This is the only thing that catches it.
+      - name: Typecheck
+        run: npm run typecheck
+
+      # Builds, stages build/client/* into _site, and runs
+      # scripts/verify-publish-artifact.mjs over it. One script so the local
+      # gate and this job cannot drift: `npm run check:publish` is the same run.
+      - name: Build and verify the publish artifact
+        run: npm run check:publish
+
+      # The prerendered pages reference images and favicons by root-absolute
+      # path. This proves every one of them is in the artifact, which neither
+      # the head nor the text of a page can show.
+      - name: Check asset references
+        run: npm run check:assets
+
+      # The URL -> route truth table. One pure function stands in for
+      # everything Angular attached as per-route `data`, and every head tag
+      # depends on it.
+      - name: Check route resolution
+        run: npm run check:routes
+
+      - name: List what will deploy
+        run: ls -la _site
+
+      # Two files the host reads and the artifact verifier does not both cover:
+      # it asserts .nojekyll but not CNAME. Without CNAME in the deployed tree
+      # the custom domain is dropped on the next deploy and the apex goes to
+      # the *.github.io URL — a silent outage with a green build. It arrives
+      # from public/CNAME, so this is a one-line check, not a build step.
+      - name: Assert the host files are in the artifact
+        run: |
+          set -euo pipefail
+          test -f _site/CNAME || { echo "::error::_site/CNAME missing — the custom domain would be dropped"; exit 1; }
+          test -f _site/.nojekyll || { echo "::error::_site/.nojekyll missing — Jekyll would strip underscored paths"; exit 1; }
+          echo "CNAME: $(cat _site/CNAME)"
+
+      - name: Push to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: _site
+          branch: gh-pages
+          clean: true
+          single-commit: true
+          commit-message: "Deploy site"
+          git-config-name: github-actions[bot]
+          git-config-email: 41898282+github-actions[bot]@users.noreply.github.com
+
+  notify:
+    needs: deploy
+    if: ${{ needs.deploy.result == 'success' }}
+    runs-on: ubuntu-latest
+    # Intentionally NOT pinned to an environment. The auto-created github-pages
+    # environment has branch protection rules that reject deployments from main,
+    # which would fail this job. Repository secrets are visible to every job, so
+    # the notifications below work without an environment.
+    steps:
+      - name: Optional ntfy notification
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_DEPLOY_TOPIC }}
+        run: |
+          set -euo pipefail
+          if [ -z "${NTFY_TOPIC:-}" ]; then
+            echo "Skip ntfy (NTFY_DEPLOY_TOPIC not set for this environment)."
+            exit 0
+          fi
+          MSG="${GITHUB_REPOSITORY}: GitHub Pages deployed (${GITHUB_SHA:0:7}). ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          curl -fsS -H "Title: Pages deployed" -d "$MSG" "$NTFY_TOPIC" || echo "::warning::ntfy request failed (check NTFY_DEPLOY_TOPIC)"
+
+      - name: Notify Slack (Pages deployed)
+        continue-on-error: true
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${SLACK_WEBHOOK_URL:-}" ]; then
+            echo "Skip Slack (SLACK_WEBHOOK_URL not set for this environment)."
+            exit 0
+          fi
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          MSG="*GitHub Pages deployed*: \`${GITHUB_REPOSITORY}\` @ \`${GITHUB_SHA:0:7}\` (<${RUN_URL}|Open workflow run>)"
+          payload=$(jq -n --arg text "$MSG" '{text: $text}')
+          curl -fsS -X POST -H 'Content-Type: application/json' -d "$payload" "$SLACK_WEBHOOK_URL" || echo "::warning::Slack webhook request failed"

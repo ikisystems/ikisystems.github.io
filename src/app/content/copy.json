@@ -1,0 +1,200 @@
+{
+  "$comment": "English source of truth for every user-visible string on the IKI Systems apex site, and the schema every locale overlay follows. Ported verbatim from the static ikisystems.github.io pages. Components never import this file: they read useLocaleApi().copy. Strings whose key ends in Html carry inline markup (<a>, <strong>) or HTML entities and are set as HTML; everything else is text. The legal sections are the live App Store policy text and must not be reworded as part of a layout change.",
+  "links": {
+    "ikiSystemsHome": "https://ikisystems.com/",
+    "speakWithHome": "https://speakwith.ikisystems.com"
+  },
+  "app": {
+    "brandMark": "brand-mark.png",
+    "footer": {
+      "copyrightHtml": "&copy; {{year}} IKI Systems. All rights reserved."
+    }
+  },
+  "home": {
+    "wordmark": "IKI Systems",
+    "tagline": "Purpose-built software for Apple platforms.",
+    "products": [
+      {
+        "title": "SpeakWith",
+        "icon": "speakwith-icon.png",
+        "href": "https://speakwith.ikisystems.com",
+        "body": "Your spoken ideas, captured as a daily document. For Mac and iOS."
+      },
+      {
+        "title": "HeartBond",
+        "icon": "heartbond-icon.png",
+        "href": "https://heartbond.ikisystems.com/",
+        "body": "Heart rate from Apple Health, drawn as a daily graph. For iPhone, iPad, and Mac."
+      },
+      {
+        "title": "BreatheWith",
+        "icon": "breathewith-icon.png",
+        "href": "https://d108.github.io/breathewith-app-support/",
+        "body": "Paced breathing for calm, focus, and sleep, guided by a visual ladder and haptic ticks. For iPhone, Apple Watch, Mac, and Android."
+      }
+    ]
+  },
+  "legal": {
+    "nav": [
+      {
+        "label": "IKI Systems",
+        "href": "https://ikisystems.com/"
+      },
+      {
+        "label": "SpeakWith",
+        "href": "https://speakwith.ikisystems.com/"
+      }
+    ],
+    "navSeparator": " · "
+  },
+  "privacy": {
+    "heading": "Privacy Policy",
+    "meta": "Last updated: November 2026",
+    "intro": "SpeakWith is built around a simple principle: your words are yours. This policy explains what SpeakWith does and does not do with the recordings, transcripts, and documents you create. November 2026 change: a new section describes the AI service included with a monthly membership, which sends transcript text to IKI Systems and then to OpenAI.",
+    "sections": [
+      {
+        "heading": "Your recordings are processed on your device",
+        "paragraphs": [
+          "SpeakWith records, transcribes, organises, and searches entirely on your own device, whether that is your Mac or your iOS device. Turning speech into text, shaping it into your daily document, and answering your searches all happen locally. SpeakWith does not need an internet connection to do its core work, and it does not send your recordings to a server to be processed.",
+          "Three optional features can send transcript text, never audio, to a language model: generating a session title, polishing a take, and checking corrections. All of them are off until you turn them on. Session titles and polish can run through the AI service included with a monthly membership, described in the next section, or through your own OpenAI API key. On the Mac they can also use a local Ollama model, so nothing leaves your machine when you choose Ollama. On iPhone and iPad, session titles and polish use the AI service included with SpeakWith Pro. An OpenAI API key you provide is an alternative. Without Pro and without a key, nothing leaves the device. Correction checks, if you enable them, use your OpenAI key.",
+          "One more feature can send transcript text off your device, and it works differently: Send to agent, on the Mac only. When you use it, the topics you have ticked in the Outline are handed to a coding agent already installed on your Mac, such as Claude Code, Cursor, Codex, or Gemini. SpeakWith hands that text to the program on your machine; the program is what contacts a provider, under your own account with whichever service it uses, and that provider then sees the topics you sent. What happens to the text from there is covered by that agent&#x27;s own terms and privacy policy, not by this one. Nothing is sent until you press Send to agent, and nothing is sent if you never use the feature."
+        ]
+      },
+      {
+        "heading": "The AI service included with a monthly membership",
+        "paragraphs": [
+          "A monthly membership includes an AI service for session titles and polish, so you do not need to supply your own API key. When you use it, SpeakWith sends the transcript text for that step to a service run by IKI Systems, which forwards it to OpenAI to produce the title or the polished text. Audio never leaves your device, and transcription still happens locally. If you turn on automatic polish, text is sent each time a take settles, not only when you press a button.",
+          "To confirm that your membership is current, the app sends a hashed form of your purchase credential. The service stores that hash, a hashed short-lived session token, your membership tier, and the time of first and most recent use. It does not store the credential itself, your name, or your email address. It keeps a monthly total of the tokens each membership has used, so it can apply the allowance. That ledger holds counts, not your words. These records live in Amazon Web Services, in the US West (Oregon) region.",
+          "SpeakWith can reach a language model three ways, and your text only passes through us on one of them: a local Ollama model on the Mac, where nothing leaves your device; an OpenAI API key you provide, where the text goes from the app straight to OpenAI and never through us; and the included service. For that third path our role is transit and nothing else. Our AI service never writes the text you send, or the text that comes back, to a log or to a database  -  not when a request succeeds, and not when it fails. Whatever we record about a failure describes the failure, never the text that was in flight. What OpenAI does with the text on its side is governed by <a href=\"https://openai.com/policies/\" target=\"_blank\" rel=\"noopener noreferrer\">OpenAI's terms and policies</a>.",
+          "The allowance is a monthly ceiling on how much text the service will process for one membership. If it runs out, or the service is unavailable, the app offers to use an OpenAI API key you provide instead, and nothing is sent until you choose. A one-time purchase and the 14-day free trial do not include the service; they use your own key or, on the Mac, a local Ollama model. Correction checks are not part of the included service and always use your own key."
+        ]
+      },
+      {
+        "heading": "No telemetry, analytics, or tracking in the app",
+        "paragraphs": [
+          "The SpeakWith application does not include usage analytics, advertising, or behavioural tracking. We do not collect a record of how you use the app, what you record, or what you search for. There are no third-party trackers in the application.",
+          "This is a statement about the app itself. This website, which is separate software running in your browser, measures anonymous visitor counts; that is described under “The support website” below. Nothing measured on the website is connected to the app, and the app never reports usage to us. The one exception is the included AI service: when a monthly membership uses it, the service records the token totals needed to apply the allowance, as described above. That is billing bookkeeping for a feature you chose to use, not product analytics, and it records amounts, not content."
+        ]
+      },
+      {
+        "heading": "Your files belong to you",
+        "paragraphs": [
+          "Everything SpeakWith produces (your recordings, transcripts, and daily documents) is stored as ordinary files on your device. Open, copy, move, back up, or delete them with any tool you like."
+        ]
+      },
+      {
+        "heading": "Crash reporting is opt-in only",
+        "paragraphs": [
+          "If something in SpeakWith goes wrong, a diagnostic report can help us fix it. SpeakWith never sends such a report automatically. Crash and diagnostic reporting is strictly opt-in: nothing leaves your device unless you explicitly choose to send it, and you can decline or turn it off at any time."
+        ]
+      },
+      {
+        "heading": "The support website",
+        "paragraphs": [
+          "This website uses TelemetryDeck, a privacy-focused analytics service, to count page views and how often the download and pricing links are used. It tells us which pages people find useful. It is not used to profile you.",
+          "No cookies are set for analytics and no advertising or cross-site tracking identifiers are used. Visits are identified only by a random value that lives in your browser tab and is discarded when you close it, and TelemetryDeck anonymises that value before storing it. We see aggregate counts  -  pages, referrers, campaign links, browser and country  -  never individual visitors, and never anything you type.",
+          "Standard server request logs may exist at the hosting provider, as they do for any website."
+        ]
+      },
+      {
+        "heading": "Changes to this policy",
+        "paragraphs": [
+          "If this policy changes, the updated version will be posted here with a new date. Material changes will be summarised at the top of the page."
+        ]
+      },
+      {
+        "heading": "Contact",
+        "paragraphs": [
+          "Questions about privacy? Email support@ikisystems.com."
+        ]
+      }
+    ]
+  },
+  "terms": {
+    "heading": "Terms of Service",
+    "meta": "Last updated: November 2026",
+    "intro": "These terms govern your use of the SpeakWith application. By installing or using SpeakWith, you agree to them. Please read them carefully.",
+    "sections": [
+      {
+        "heading": "Licence to use SpeakWith",
+        "paragraphs": [
+          "SpeakWith grants you a personal, non-exclusive, non-transferable licence to install and use the application on Mac computers and iOS devices you own or control, in accordance with these terms. You may not redistribute, resell, rent, or sublicense the application, or attempt to reverse engineer it except where that restriction is prohibited by law."
+        ]
+      },
+      {
+        "heading": "Accuracy disclaimer",
+        "paragraphs": [
+          "SpeakWith converts speech to text using automated processing. Automated transcription is a powerful aid, but it is <strong>not guaranteed to be accurate or complete</strong>. Results depend on factors including recording quality, background noise, accents, specialist vocabulary, and the nature of what was said.",
+          "You should treat transcripts as a high-quality first draft to review and correct, not as a verbatim or certified record. Do not rely on SpeakWith&#x27;s output for any purpose where an error could cause harm, loss, or legal consequence without independently verifying it."
+        ]
+      },
+      {
+        "heading": "Your content",
+        "paragraphs": [
+          "You own the recordings, transcripts, and documents you create with SpeakWith. SpeakWith does not claim any rights over your content. You are responsible for what you record and for having the right to record it. Because your content is stored as files on your own device, you are also responsible for backing it up."
+        ]
+      },
+      {
+        "heading": "The included AI service",
+        "paragraphs": [
+          "A monthly membership includes access to an AI service for session titles and polish. Using it is optional. The service sends the transcript text for that step to IKI Systems and then to OpenAI, as described in the Privacy Policy. A one-time purchase and the free trial do not include it.",
+          "The service comes with a monthly allowance. We do not guarantee any particular allowance, that it will cover your use, or that the service will be available at any given time. If the allowance is used up or the service is unavailable, the app lets you continue with your own API key. We may change the model the service uses, the allowance, or the way the allowance is measured, and we may withdraw the service with reasonable notice.",
+          "Titles and polished text are produced by an automated language model. They are suggestions, not a certified record, and the accuracy disclaimer above applies to them. Review what the service returns before you rely on it.",
+          "You keep ownership of the text you send and of what comes back. IKI Systems does not claim rights over either, and does not keep the text once the request completes."
+        ]
+      },
+      {
+        "heading": "Provided &quot;as is&quot;",
+        "paragraphs": [
+          "SpeakWith is provided &quot;as is&quot; and &quot;as available&quot;, without warranties of any kind, whether express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement. We do not warrant that the application will be uninterrupted, error-free, or that every recording will be processed successfully."
+        ]
+      },
+      {
+        "heading": "Limitation of liability",
+        "paragraphs": [
+          "To the maximum extent permitted by law, SpeakWith and <a href=\"https://ikisystems.com/\" target=\"_blank\" rel=\"noopener noreferrer\">IKI Systems</a> will not be liable for any indirect, incidental, special, or consequential damages, or for any loss of data, arising out of or related to your use of the application. Nothing in these terms excludes liability that cannot be excluded under applicable law."
+        ]
+      },
+      {
+        "heading": "Changes to these terms",
+        "paragraphs": [
+          "These terms may be updated from time to time. The current version will always be posted here with its date. Continued use of SpeakWith after a change means you accept the updated terms."
+        ]
+      },
+      {
+        "heading": "Auto-renewing subscription",
+        "paragraphs": [
+          "SpeakWith Pro on iPhone and iPad is an auto-renewing monthly subscription named SpeakWith Pro (product com.ikisystems.speakwith.pro.subscription). The price is US $6.99 per month, and the local price is shown in the App Store. A 7-day free trial converts to the paid month unless you cancel. Payment is charged to your Apple Account. The subscription renews automatically unless cancelled at least 24 hours before the end of the period. Manage or cancel in the App Store app, under your account, then Subscriptions. Refunds are handled by Apple.",
+          "Pro includes session titles, polish, and a monthly AI allowance. Live dictation, day documents, search, and projects stay free and are not part of the subscription. The Mac app&#x27;s Gumroad membership is a separate purchase and is not this App Store subscription."
+        ]
+      },
+      {
+        "heading": "Contact",
+        "paragraphs": [
+          "Questions about these terms: email support@ikisystems.com."
+        ]
+      }
+    ]
+  },
+  "notFound": {
+    "heading": "Page not found",
+    "leadHtml": "The page you were looking for doesn&rsquo;t exist.",
+    "ctaHtml": "&larr; Back to IKI Systems"
+  },
+  "seo": {
+    "$comment": "Per-route title and meta description, keyed by the seoKey in locales.json. Only `home` carries a description: the two legal pages and the 404 publish a title and nothing else, and app/head.ts emits no `meta description` tag for them rather than substituting one. There is no site-wide default anywhere - if a page needs a description it gets its own key here, so this file stays the only place any of them is written down.",
+    "home": {
+      "title": "IKI Systems",
+      "description": "IKI Systems. SpeakWith and HeartBond. Purpose-built software for Apple platforms."
+    },
+    "privacy": {
+      "title": "Privacy Policy | IKI Systems"
+    },
+    "terms": {
+      "title": "Terms of Service | IKI Systems"
+    },
+    "notFound": {
+      "title": "Page not found — IKI Systems"
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$comment": "Single source of truth for the locale x route matrix. Read by scripts/resolve-locales.mjs, which writes the generated, git-ignored locales.active.ts that app/routes.ts and src/content/copy.ts import, and by scripts/generate-sitemap.mjs, scripts/lib/route-matrix.mjs and scripts/verify-publish-artifact.mjs. This site ships ONE locale, so there is nothing to flag off today; the machinery is kept whole anyway, because the alternative is trimming five scripts that already agree with each other. A non-default locale added here carries `enabled`, and only an `enabled: true` locale reaches a production build (GitHub Actions). To work on one locally, set IKISYSTEMS_LOCALES=<code> (comma list, or `all`) in the environment or in the git-ignored .env; that override never reaches CI. `prefix` is the URL segment ('' = unprefixed canonical English). Routes with `localized: false` (the legal pages) ship English-canonical in every locale. The priorities below are the ones the static sitemap.xml already publishes; do not renumber them.",
+  "origin": "https://ikisystems.com",
+  "defaultLocale": "en",
+  "locales": [
+    { "code": "en", "prefix": "", "htmlLang": "en", "ogLocale": "en_US", "endonym": "English" }
+  ],
+  "routes": [
+    { "path": "", "seoKey": "home", "localized": true, "priority": "1.0" },
+    { "path": "privacy", "seoKey": "privacy", "localized": false, "priority": "0.4" },
+    { "path": "terms", "seoKey": "terms", "localized": false, "priority": "0.4" }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "ikisystems-apex",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "supportSite": {
+    "installSentinel": "node_modules/.bin/react-router",
+    "installSentinelComment": "Names a file this checkout really has after `npm ci`, for the local dev runner that decides whether to install. node_modules/.bin/ng never exists here, and probing for it would re-run npm ci on every start and wipe node_modules under a live server."
+  },
+  "scripts": {
+    "prestart": "node scripts/resolve-locales.mjs && node scripts/extract-theme-prelude.mjs",
+    "start": "react-router dev",
+    "prebuild": "node scripts/resolve-locales.mjs && node scripts/extract-theme-prelude.mjs",
+    "build": "react-router build",
+    "postbuild": "node scripts/generate-sitemap.mjs",
+    "locales": "node scripts/resolve-locales.mjs",
+    "sitemap": "node scripts/generate-sitemap.mjs",
+    "check:assets": "node scripts/check-asset-refs.mjs",
+    "check:routes": "node scripts/test-resolve-route.mjs",
+    "check:repo": "node scripts/check-repo-hygiene.mjs",
+    "check:publish": "npm run build && rm -rf _site && mkdir -p _site && cp -r build/client/* _site/ && cp _site/404/index.html _site/404.html && touch _site/.nojekyll && node scripts/prune-unreferenced.mjs _site && node scripts/verify-publish-artifact.mjs \"$PWD/_site\"",
+    "check:nojs": "node scripts/prune-unreferenced.mjs _site",
+    "pretypecheck": "node scripts/resolve-locales.mjs && node scripts/extract-theme-prelude.mjs",
+    "typecheck": "react-router typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@react-router/node": "7.18.4",
+    "isbot": "5.2.2",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-router": "7.18.4"
+  },
+  "devDependencies": {
+    "@react-router/dev": "7.18.4",
+    "@types/node": "22.19.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.7",
+    "vite-tsconfig-paths": "5.1.4"
+  }
+}

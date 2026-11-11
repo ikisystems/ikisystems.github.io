@@ -1,0 +1,22 @@
+/* Was the `body` rule in the static index.html, which held main + footer
+   directly. Here one more element sits between them — <app-root> — so the
+   column lives on that instead, and `body` keeps only the flex declarations
+   it shares with every page (src/styles.css).
+
+   This class rides on the <app-root> element, which styles.css also styles by
+   tag name (display: block). A class beats an element selector, so flex wins
+   here. */
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* `main` is a flex column rather than the centred box the static index.html
+   used, because the two legal pages are not centred and not 640px wide. Each
+   page owns its own measure; main only gives it the remaining height to fill. */
+.main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}

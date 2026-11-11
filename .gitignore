@@ -1,0 +1,15 @@
+node_modules/
+build/
+.react-router/
+_site/
+.DS_Store
+*.log
+
+# Generated per build (scripts/resolve-locales.mjs, scripts/extract-theme-prelude.mjs)
+src/content/locales.active.ts
+app/generated/
+
+# Per-machine overrides only. The Makefile and .env.example ARE tracked: they
+# are stripped from published snapshots rather than hidden from git (see
+# private/publish-tokens.json).
+.env

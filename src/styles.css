@@ -1,0 +1,248 @@
+/* IKI Systems apex company page: global styles.
+
+   Ported verbatim from the inline <style> blocks of the static
+   ikisystems.github.io pages — index.html for the hero, product cards and
+   footer, and privacy/terms for the `.prose` legal layout. The declarations
+   are unchanged; only their home moved.
+
+   The theme tokens themselves live in src/theme-tokens.css, not here. They are
+   inlined into every page's <head> so they apply on the very first paint and
+   avoid a theme flash on dark systems. Everything below consumes them via
+   var(--*). Edit the palette there.
+
+   No JavaScript ships with this site, so there is nothing here that waits on a
+   class a script would add. Every state is a CSS state. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The per-page wrapper elements, Angular-style hosts kept so a rule added for
+   one page stays scoped to that page. See app/custom-elements.d.ts. */
+app-root,
+app-home,
+app-privacy,
+app-terms,
+app-not-found {
+  display: block;
+  width: 100%;
+}
+
+/* ---- Home: hero + product list -------------------------------------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hero__mark {
+  width: 72px;
+  height: 72px;
+  margin-bottom: 0.75rem;
+  border-radius: 50%;
+}
+
+.hero__wordmark {
+  font-size: clamp(2rem, 6vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.hero__tagline {
+  color: var(--text-dim);
+  font-size: 1.1rem;
+}
+
+/* One column, and every card the same height as the tallest.
+ *
+ * `grid-auto-rows: 1fr` is what equalizes them: in an auto-height grid the
+ * `1fr` rows all resolve to the largest row's content height, so the shorter
+ * cards gain interior space instead of the text being stretched. That is the
+ * point — the bodies are 65, 80 and 130 characters, so a plain flex column
+ * gave three visibly different heights.
+ *
+ * Deliberately not a per-card `min-height` or a padding override on the two
+ * short ones: both are magic numbers keyed to today's copy, and `home.tsx`
+ * maps over `copy.home.products`, so a fourth product or one reworded line
+ * would silently un-equalize them again. This stays correct for N cards at
+ * any copy length.
+ */
+.product-list {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 2.75rem;
+}
+
+/* Product card — the whole thing is one link.
+ *
+ * `display: flex` + `align-items: center` rather than `block`: the card is now
+ * stretched to the row height, and without this its row would sit at the top
+ * of a too-tall box. Centering puts the extra space above and below evenly. */
+.product-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  text-decoration: none;
+  color: inherit;
+  background-color: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.product-card:hover,
+.product-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 26px rgba(0, 0, 0, 0.18);
+}
+
+.product-card__head {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+}
+
+.product-card__icon {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.product-card__copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.product-card__title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.product-card__arrow {
+  color: var(--accent);
+  font-size: 1.4rem;
+  line-height: 1;
+  margin-left: auto;
+  transition: transform 0.18s ease;
+}
+
+.product-card:hover .product-card__arrow,
+.product-card:focus-visible .product-card__arrow {
+  transform: translateX(4px);
+}
+
+.product-card__body {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--text-dim);
+  font-size: 1rem;
+}
+
+/* ---- Legal pages ----------------------------------------------------- */
+
+/* The privacy and terms pages are their own layout: a narrow measure, a plain
+   document flow, and none of the home page's centring. Carried from the
+   `main` / `h1` / `h2` / `p` rules of their inline stylesheets. */
+.prose {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.prose a {
+  color: var(--accent);
+}
+
+.prose h1 {
+  font-size: 1.8rem;
+  line-height: 1.2;
+  margin: 0 0 0.4rem;
+}
+
+.prose h2 {
+  font-size: 1.15rem;
+  margin: 1.8rem 0 0.4rem;
+}
+
+.prose p {
+  margin: 0.55rem 0;
+}
+
+.prose .meta,
+.prose .intro {
+  color: var(--text-dim);
+}
+
+.prose nav {
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+/* ---- Footer ---------------------------------------------------------- */
+
+footer {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  color: var(--text-dim);
+  font-size: 0.875rem;
+  line-height: 1.9;
+}
+
+footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--accent);
+}
+
+.footer__sep {
+  opacity: 0.5;
+  padding: 0 0.4rem;
+}
+
+/* ---- Shared ---------------------------------------------------------- */
+
+/* Visible focus ring for keyboard users on every interactive element. */
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card,
+  .product-card__arrow {
+    transition: none;
+  }
+  .product-card:hover,
+  .product-card:focus-visible {
+    transform: none;
+  }
+}
